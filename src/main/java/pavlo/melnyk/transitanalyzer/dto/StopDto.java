@@ -1,19 +1,22 @@
 package pavlo.melnyk.transitanalyzer.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class StopDto {
     private String stopId;
     private String stopCode;
     private String stopName;
     private String stopDesc;
-    private double stopLat;
-    private double stopLon;
+    private Double stopLat;
+    private Double stopLon;
     private String zoneId;
     private String stopUrl;
-    private int locationType;
+    private Integer locationType;
     private String parentStation;
     private String stopTimezone;
-    private String wheelchairBoarding;
+    private Integer wheelchairBoarding;
+    private String platformCode;
 }

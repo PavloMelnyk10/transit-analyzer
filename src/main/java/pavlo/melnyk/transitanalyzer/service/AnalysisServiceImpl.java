@@ -4,7 +4,9 @@ import static pavlo.melnyk.transitanalyzer.util.AppConstants.FIELD_LOCATION;
 import static pavlo.melnyk.transitanalyzer.util.AppConstants.UNIT_KM;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,9 +20,16 @@ import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.GeoDistanceOrder;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
+import pavlo.melnyk.transitanalyzer.dto.RouteInfoResponseDto;
 import pavlo.melnyk.transitanalyzer.dto.StopDistanceDto;
+import pavlo.melnyk.transitanalyzer.entity.Route;
 import pavlo.melnyk.transitanalyzer.entity.Stop;
+import pavlo.melnyk.transitanalyzer.entity.StopTime;
+import pavlo.melnyk.transitanalyzer.entity.Trip;
+import pavlo.melnyk.transitanalyzer.repository.RouteRepository;
 import pavlo.melnyk.transitanalyzer.repository.StopRepository;
+import pavlo.melnyk.transitanalyzer.repository.StopTimeRepository;
+import pavlo.melnyk.transitanalyzer.repository.TripRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +37,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     private final ElasticsearchOperations elasticsearchOperations;
     private final StopRepository stopRepository;
+    private final StopTimeRepository stopTimeRepository;
+    private final TripRepository tripRepository;
+    private final RouteRepository routeRepository;
 
     @Override
     public Page<StopDistanceDto> findStopsNear(String stopId,
@@ -56,5 +68,32 @@ public class AnalysisServiceImpl implements AnalysisService {
                     distance);
         }).collect(Collectors.toList());
         return new PageImpl<>(dtoList, pageable, hits.getTotalHits());
+    }
+
+    @Override
+    public List<RouteInfoResponseDto> findRoutesByStop(String stopId) {
+        List<StopTime> stopTimes = stopTimeRepository.findByStopId(stopId);
+        if (stopTimes.isEmpty()) {
+            return List.of();
+        }
+
+        Set<String> tripIds = stopTimes.stream()
+                .map(StopTime::getTripId)
+                .collect(Collectors.toSet());
+
+        Iterable<Trip> trips = tripRepository.findAllById(tripIds);
+
+        Set<String> routeIds = StreamSupport.stream(trips.spliterator(), false)
+                .map(Trip::getRouteId)
+                .collect(Collectors.toSet());
+
+        Iterable<Route> routes = routeRepository.findAllById(routeIds);
+
+        return StreamSupport.stream(routes.spliterator(), false)
+                .map(route -> new RouteInfoResponseDto(
+                        route.getRouteShortName(),
+                        route.getRouteLongName(),
+                        route.getRouteType()))
+                .collect(Collectors.toList());
     }
 }

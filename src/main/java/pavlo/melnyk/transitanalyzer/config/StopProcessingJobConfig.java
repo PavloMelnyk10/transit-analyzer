@@ -33,11 +33,11 @@ public class StopProcessingJobConfig {
         return new FlatFileItemReaderBuilder<StopDto>()
                 .name("stopItemReader")
                 .resource(new ClassPathResource(GTFS_STOPS_PATH))
-                .linesToSkip(1)
                 .delimited()
-                .names("stop_id", "stop_code", "stop_name", "stop_desc",
-                        "stop_lat", "stop_lon", "zone_id", "stop_url",
-                        "location_type", "parent_station", "stop_timezone", "wheelchair_boarding")
+                .names("stopId", "stopCode", "stopName", "stopDesc", "stopLat", "stopLon",
+                        "zoneId", "stopUrl", "locationType", "parentStation", "stopTimezone",
+                        "wheelchairBoarding", "platformCode")
+                .linesToSkip(1)
                 .targetType(StopDto.class)
                 .build();
     }

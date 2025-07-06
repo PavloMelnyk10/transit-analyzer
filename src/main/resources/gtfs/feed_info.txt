@@ -1,2 +1,2 @@
-﻿feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version,feed_contact_email,feed_contact_url
-"R&G PLUS Sp. z o.o.",http://www.rg.com.pl,pl,20250701,20260228,"1483_1485","municom@rg.com.pl",""
+feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version
+"ZTP","http://ztp.krakow.pl/",pl,,,05.07.2025 00:09

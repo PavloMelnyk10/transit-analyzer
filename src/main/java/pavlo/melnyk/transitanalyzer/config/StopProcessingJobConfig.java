@@ -5,6 +5,7 @@ import static pavlo.melnyk.transitanalyzer.util.AppConstants.GTFS_STOPS_PATH;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -15,7 +16,7 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
 import pavlo.melnyk.transitanalyzer.batch.StopItemProcessor;
 import pavlo.melnyk.transitanalyzer.dto.StopDto;
@@ -29,10 +30,11 @@ public class StopProcessingJobConfig {
     private final StopRepository stopRepository;
 
     @Bean
+    @StepScope
     public FlatFileItemReader<StopDto> stopItemReader() {
         return new FlatFileItemReaderBuilder<StopDto>()
                 .name("stopItemReader")
-                .resource(new ClassPathResource(GTFS_STOPS_PATH))
+                .resource(new FileSystemResource(GTFS_STOPS_PATH))
                 .delimited()
                 .names("stopId", "stopCode", "stopName", "stopDesc", "stopLat", "stopLon",
                         "zoneId", "stopUrl", "locationType", "parentStation", "stopTimezone",

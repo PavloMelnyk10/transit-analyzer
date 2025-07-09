@@ -5,6 +5,7 @@ import static pavlo.melnyk.transitanalyzer.util.AppConstants.GTFS_STOP_TIMES_PAT
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -14,7 +15,7 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
 import pavlo.melnyk.transitanalyzer.dto.StopTimeDto;
 import pavlo.melnyk.transitanalyzer.entity.StopTime;
@@ -27,15 +28,16 @@ public class StopTimeProcessingJobConfig {
     private final StopTimeRepository stopTimeRepository;
 
     @Bean
+    @StepScope
     public FlatFileItemReader<StopTimeDto> stopTimeItemReader() {
         return new FlatFileItemReaderBuilder<StopTimeDto>()
                 .name("stopTimeItemReader")
-                .resource(new ClassPathResource(GTFS_STOP_TIMES_PATH))
+                .resource(new FileSystemResource(GTFS_STOP_TIMES_PATH))
+                .linesToSkip(1)
                 .delimited()
                 .names("tripId", "arrivalTime", "departureTime", "stopId",
                         "stopSequence", "stopHeadsign", "pickupType",
                         "dropOffType", "shapeDistTraveled", "timepoint")
-                .linesToSkip(1)
                 .targetType(StopTimeDto.class)
                 .build();
     }

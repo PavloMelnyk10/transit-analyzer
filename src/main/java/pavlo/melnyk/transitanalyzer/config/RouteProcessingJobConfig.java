@@ -9,16 +9,19 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
 import pavlo.melnyk.transitanalyzer.batch.RouteShapeProcessor;
 import pavlo.melnyk.transitanalyzer.dto.ShapePointDto;
@@ -33,28 +36,27 @@ public class RouteProcessingJobConfig {
     private final RouteShapeProcessor routeShapeProcessor;
 
     @Bean
+    @StepScope
     public FlatFileItemReader<ShapePointDto> shapePointItemReader() {
-        return new FlatFileItemReaderBuilder<ShapePointDto>()
-                .name("shapePointItemReader")
-                .resource(new ClassPathResource(GTFS_SHAPES_PATH))
-                .linesToSkip(1)
-                .delimited()
-                .names("shape_id", "shape_pt_lat", "shape_pt_lon",
-                        "shape_pt_sequence", "shape_dist_traveled")
-                .fieldSetMapper(fieldSet -> {
-                    ShapePointDto dto = new ShapePointDto();
-                    dto.setShapeId(fieldSet.readString("shape_id"));
-                    dto.setShapePtLat(fieldSet.readDouble("shape_pt_lat"));
-                    dto.setShapePtLon(fieldSet.readDouble("shape_pt_lon"));
-                    dto.setShapePtSequence(fieldSet.readInt("shape_pt_sequence"));
-
-                    String distTraveled = fieldSet.readString("shape_dist_traveled");
-                    if (!distTraveled.isEmpty()) {
-                        dto.setShapeDistTraveled(Double.parseDouble(distTraveled));
+        FlatFileItemReader<ShapePointDto> reader = new FlatFileItemReader<>();
+        reader.setResource(new FileSystemResource(GTFS_SHAPES_PATH));
+        reader.setLinesToSkip(1);
+        reader.setLineMapper(new DefaultLineMapper<>() {
+            {
+                setLineTokenizer(new DelimitedLineTokenizer() {
+                    {
+                        setNames("shape_id", "shape_pt_lat", "shape_pt_lon",
+                                "shape_pt_sequence", "shape_dist_traveled");
                     }
-                    return dto;
-                })
-                .build();
+                });
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<>() {
+                    {
+                        setTargetType(ShapePointDto.class);
+                    }
+                });
+            }
+        });
+        return reader;
     }
 
     @Bean

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pavlo.melnyk.transitanalyzer.dto.RouteInfoResponseDto;
 import pavlo.melnyk.transitanalyzer.dto.StopDistanceDto;
+import pavlo.melnyk.transitanalyzer.dto.StopSearchDto;
 import pavlo.melnyk.transitanalyzer.service.AnalysisService;
 
 @RestController
@@ -33,5 +34,10 @@ public class AnalysisController {
     public ResponseEntity<List<RouteInfoResponseDto>> getRoutesForStop(
             @PathVariable String stopId) {
         return ResponseEntity.ok(analysisService.findRoutesByStop(stopId));
+    }
+
+    @GetMapping("/stops/search")
+    public ResponseEntity<List<StopSearchDto>> searchStopsByName(@RequestParam String name) {
+        return ResponseEntity.ok(analysisService.searchStopsByName(name));
     }
 }

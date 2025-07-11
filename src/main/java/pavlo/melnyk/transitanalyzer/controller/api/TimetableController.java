@@ -1,4 +1,4 @@
-package pavlo.melnyk.transitanalyzer.controller;
+package pavlo.melnyk.transitanalyzer.controller.api;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import pavlo.melnyk.transitanalyzer.dto.DepartureDto;
 import pavlo.melnyk.transitanalyzer.service.TimetableService;
 
 @RestController
-@RequestMapping("/api/timetables")
+@RequestMapping("/api/timetable")
 @RequiredArgsConstructor
 public class TimetableController {
 

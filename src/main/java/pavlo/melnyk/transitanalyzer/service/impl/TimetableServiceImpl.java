@@ -1,4 +1,4 @@
-package pavlo.melnyk.transitanalyzer.service;
+package pavlo.melnyk.transitanalyzer.service.impl;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +16,7 @@ import pavlo.melnyk.transitanalyzer.entity.Trip;
 import pavlo.melnyk.transitanalyzer.repository.RouteRepository;
 import pavlo.melnyk.transitanalyzer.repository.StopTimeRepository;
 import pavlo.melnyk.transitanalyzer.repository.TripRepository;
+import pavlo.melnyk.transitanalyzer.service.TimetableService;
 
 @Service
 @RequiredArgsConstructor

@@ -12,7 +12,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
 import org.springframework.stereotype.Component;
 import org.wololo.jts2geojson.GeoJSONWriter;
-import pavlo.melnyk.transitanalyzer.dto.ShapePointDto;
+import pavlo.melnyk.transitanalyzer.dto.batch.ShapePointDto;
 import pavlo.melnyk.transitanalyzer.entity.RouteShape;
 
 @Component

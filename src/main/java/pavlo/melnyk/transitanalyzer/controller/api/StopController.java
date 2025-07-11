@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import pavlo.melnyk.transitanalyzer.dto.RouteInfoResponseDto;
 import pavlo.melnyk.transitanalyzer.dto.StopDistanceDto;
 import pavlo.melnyk.transitanalyzer.dto.StopSearchDto;
-import pavlo.melnyk.transitanalyzer.service.AnalysisService;
+import pavlo.melnyk.transitanalyzer.service.StopService;
 
 @RestController
-@RequestMapping("/api/analysis")
+@RequestMapping("/api/stop")
 @RequiredArgsConstructor
-public class AnalysisController {
-
-    private final AnalysisService analysisService;
+public class StopController {
+    private final StopService analysisService;
 
     @GetMapping("/stops-near/{stopId}")
     public ResponseEntity<Page<StopDistanceDto>> getStopsNear(
@@ -30,13 +29,13 @@ public class AnalysisController {
         return ResponseEntity.ok(analysisService.findStopsNear(stopId, distance, pageable));
     }
 
-    @GetMapping("/stops/{stopId}/routes")
+    @GetMapping("/{stopId}/routes")
     public ResponseEntity<List<RouteInfoResponseDto>> getRoutesForStop(
             @PathVariable String stopId) {
         return ResponseEntity.ok(analysisService.findRoutesByStop(stopId));
     }
 
-    @GetMapping("/stops/search")
+    @GetMapping("/search")
     public ResponseEntity<List<StopSearchDto>> searchStopsByName(@RequestParam String name) {
         return ResponseEntity.ok(analysisService.searchStopsByName(name));
     }

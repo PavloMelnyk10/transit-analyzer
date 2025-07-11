@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
 import pavlo.melnyk.transitanalyzer.batch.RouteShapeProcessor;
-import pavlo.melnyk.transitanalyzer.dto.ShapePointDto;
+import pavlo.melnyk.transitanalyzer.dto.batch.ShapePointDto;
 import pavlo.melnyk.transitanalyzer.entity.RouteShape;
 import pavlo.melnyk.transitanalyzer.repository.RouteShapeRepository;
 

@@ -7,7 +7,7 @@ import pavlo.melnyk.transitanalyzer.dto.RouteInfoResponseDto;
 import pavlo.melnyk.transitanalyzer.dto.StopDistanceDto;
 import pavlo.melnyk.transitanalyzer.dto.StopSearchDto;
 
-public interface AnalysisService {
+public interface StopService {
     Page<StopDistanceDto> findStopsNear(String stopId, double distanceInKm, Pageable pageable);
 
     List<RouteInfoResponseDto> findRoutesByStop(String stopId);

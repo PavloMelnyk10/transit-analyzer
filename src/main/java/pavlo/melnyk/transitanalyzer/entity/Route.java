@@ -15,7 +15,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @AllArgsConstructor
 @Document(indexName = "routes_info")
 public class Route {
-
     @Id
     @Field(type = FieldType.Keyword)
     private String routeId;

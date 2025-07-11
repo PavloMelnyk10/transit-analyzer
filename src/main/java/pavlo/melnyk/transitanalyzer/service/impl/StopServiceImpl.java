@@ -1,4 +1,4 @@
-package pavlo.melnyk.transitanalyzer.service;
+package pavlo.melnyk.transitanalyzer.service.impl;
 
 import static pavlo.melnyk.transitanalyzer.util.AppConstants.FIELD_LOCATION;
 import static pavlo.melnyk.transitanalyzer.util.AppConstants.UNIT_KM;
@@ -32,10 +32,11 @@ import pavlo.melnyk.transitanalyzer.repository.RouteRepository;
 import pavlo.melnyk.transitanalyzer.repository.StopRepository;
 import pavlo.melnyk.transitanalyzer.repository.StopTimeRepository;
 import pavlo.melnyk.transitanalyzer.repository.TripRepository;
+import pavlo.melnyk.transitanalyzer.service.StopService;
 
 @Service
 @RequiredArgsConstructor
-public class AnalysisServiceImpl implements AnalysisService {
+public class StopServiceImpl implements StopService {
 
     private final ElasticsearchOperations elasticsearchOperations;
     private final StopRepository stopRepository;

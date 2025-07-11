@@ -6,4 +6,6 @@ import pavlo.melnyk.transitanalyzer.entity.Trip;
 
 public interface TripRepository extends ElasticsearchRepository<Trip, String> {
     List<Trip> findAllByTripIdIn(List<String> tripIds);
+
+    List<Trip> findAllByRouteIdAndDirectionId(String routeId, int directionId);
 }

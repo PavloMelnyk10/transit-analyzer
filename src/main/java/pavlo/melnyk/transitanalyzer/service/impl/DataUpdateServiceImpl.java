@@ -1,4 +1,4 @@
-package pavlo.melnyk.transitanalyzer.service;
+package pavlo.melnyk.transitanalyzer.service.impl;
 
 import static pavlo.melnyk.transitanalyzer.util.AppConstants.GTFS_DIR;
 import static pavlo.melnyk.transitanalyzer.util.AppConstants.GTFS_STOPS_PATH;
@@ -25,6 +25,7 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import pavlo.melnyk.transitanalyzer.service.DataUpdateService;
 
 @Service
 @RequiredArgsConstructor

@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
-import pavlo.melnyk.transitanalyzer.dto.TripDto;
+import pavlo.melnyk.transitanalyzer.dto.batch.TripDto;
 import pavlo.melnyk.transitanalyzer.entity.Trip;
 import pavlo.melnyk.transitanalyzer.repository.TripRepository;
 

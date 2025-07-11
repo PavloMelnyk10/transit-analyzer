@@ -1,4 +1,4 @@
-package pavlo.melnyk.transitanalyzer.dto;
+package pavlo.melnyk.transitanalyzer.dto.batch;
 
 import lombok.Data;
 

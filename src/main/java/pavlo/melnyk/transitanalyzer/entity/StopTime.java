@@ -13,7 +13,6 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @AllArgsConstructor
 @Document(indexName = "stop_times")
 public class StopTime {
-
     @Id
     private String id;
 

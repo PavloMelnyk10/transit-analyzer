@@ -13,21 +13,20 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @AllArgsConstructor
 @Document(indexName = "trips")
 public class Trip {
-
     @Id
     @Field(type = FieldType.Keyword)
     private String tripId;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword, name = "route_id")
     private String routeId;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword, name = "service_id")
     private String serviceId;
 
     @Field(type = FieldType.Text)
     private String tripHeadsign;
 
-    @Field(type = FieldType.Integer)
+    @Field(type = FieldType.Integer, name = "direction_id")
     private Integer directionId;
 
     @Field(type = FieldType.Keyword)

@@ -6,4 +6,6 @@ import pavlo.melnyk.transitanalyzer.entity.Route;
 
 public interface RouteRepository extends ElasticsearchRepository<Route, String> {
     List<Route> findAllByRouteIdIn(List<String> routeIds);
+
+    List<Route> findByRouteShortName(String routeShortName);
 }

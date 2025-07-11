@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
 import pavlo.melnyk.transitanalyzer.batch.StopItemProcessor;
-import pavlo.melnyk.transitanalyzer.dto.StopDto;
+import pavlo.melnyk.transitanalyzer.dto.batch.StopDto;
 import pavlo.melnyk.transitanalyzer.entity.Stop;
 import pavlo.melnyk.transitanalyzer.repository.StopRepository;
 

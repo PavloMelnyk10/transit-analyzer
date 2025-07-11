@@ -2,7 +2,7 @@ package pavlo.melnyk.transitanalyzer.batch;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
-import pavlo.melnyk.transitanalyzer.dto.StopDto;
+import pavlo.melnyk.transitanalyzer.dto.batch.StopDto;
 import pavlo.melnyk.transitanalyzer.entity.Stop;
 
 public class StopItemProcessor implements ItemProcessor<StopDto, Stop> {

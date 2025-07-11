@@ -77,23 +77,30 @@ public class AnalysisServiceImpl implements AnalysisService {
             return List.of();
         }
 
+        Set<String> routeIds = getRouteIdsForStopTimes(stopTimes);
+        Iterable<Route> routes = routeRepository.findAllById(routeIds);
+
+        return StreamSupport.stream(routes.spliterator(), false)
+                .map(this::buildRouteInfoResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    private Set<String> getRouteIdsForStopTimes(List<StopTime> stopTimes) {
         Set<String> tripIds = stopTimes.stream()
                 .map(StopTime::getTripId)
                 .collect(Collectors.toSet());
 
         Iterable<Trip> trips = tripRepository.findAllById(tripIds);
 
-        Set<String> routeIds = StreamSupport.stream(trips.spliterator(), false)
+        return StreamSupport.stream(trips.spliterator(), false)
                 .map(Trip::getRouteId)
                 .collect(Collectors.toSet());
+    }
 
-        Iterable<Route> routes = routeRepository.findAllById(routeIds);
-
-        return StreamSupport.stream(routes.spliterator(), false)
-                .map(route -> new RouteInfoResponseDto(
-                        route.getRouteShortName(),
-                        route.getRouteLongName(),
-                        route.getRouteType()))
-                .collect(Collectors.toList());
+    private RouteInfoResponseDto buildRouteInfoResponseDto(Route route) {
+        return new RouteInfoResponseDto(
+                route.getRouteShortName(),
+                route.getRouteLongName(),
+                route.getRouteType());
     }
 }

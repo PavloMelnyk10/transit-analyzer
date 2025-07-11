@@ -54,7 +54,7 @@ public class DataUpdateServiceImpl implements DataUpdateService {
         }
     }
 
-    @Scheduled(cron = "0 0 0 */3 * *") // Runs every 3 days at midnight
+    @Scheduled(cron = "0 0 0 */3 * *")
     @Override
     public void scheduledUpdate() {
         logger.info("Starting scheduled GTFS data update...");

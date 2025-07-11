@@ -19,9 +19,11 @@ import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.GeoDistanceOrder;
 import org.springframework.data.elasticsearch.core.query.Query;
+import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 import pavlo.melnyk.transitanalyzer.dto.RouteInfoResponseDto;
 import pavlo.melnyk.transitanalyzer.dto.StopDistanceDto;
+import pavlo.melnyk.transitanalyzer.dto.StopSearchDto;
 import pavlo.melnyk.transitanalyzer.entity.Route;
 import pavlo.melnyk.transitanalyzer.entity.Stop;
 import pavlo.melnyk.transitanalyzer.entity.StopTime;
@@ -82,6 +84,17 @@ public class AnalysisServiceImpl implements AnalysisService {
 
         return StreamSupport.stream(routes.spliterator(), false)
                 .map(this::buildRouteInfoResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StopSearchDto> searchStopsByName(String name) {
+        Query query = new StringQuery("{\"match_phrase_prefix\":{\"stop_name\":\"" + name + "\"}}");
+        SearchHits<Stop> searchHits = elasticsearchOperations.search(query, Stop.class);
+
+        return searchHits.getSearchHits().stream()
+                .map(hit -> new StopSearchDto(
+                        hit.getContent().getStopId(), hit.getContent().getName()))
                 .collect(Collectors.toList());
     }
 

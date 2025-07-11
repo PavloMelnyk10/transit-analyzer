@@ -48,6 +48,7 @@ public class TripProcessingJobConfig {
                 dto.getRouteId(),
                 dto.getServiceId(),
                 dto.getTripHeadsign(),
+                dto.getDirectionId(),
                 dto.getShapeId()
         );
     }

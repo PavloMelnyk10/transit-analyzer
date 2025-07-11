@@ -27,6 +27,9 @@ public class Trip {
     @Field(type = FieldType.Text)
     private String tripHeadsign;
 
+    @Field(type = FieldType.Integer)
+    private Integer directionId;
+
     @Field(type = FieldType.Keyword)
     private String shapeId;
 }
